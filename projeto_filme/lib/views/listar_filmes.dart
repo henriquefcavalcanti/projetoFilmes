@@ -4,6 +4,7 @@ import 'package:projeto_filme/model/filme.dart';
 import 'package:projeto_filme/utils/app_rotas.dart';
 import 'package:projeto_filme/views/cadastrar_filme.dart';
 import 'package:projeto_filme/components/card_filme.dart';
+import 'package:projeto_filme/webservice/api_filmes.dart';
 
 class ListarFilmes extends StatefulWidget {
   const ListarFilmes({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _ListarFilmesState extends State<ListarFilmes> {
   FilmeDao filmeDao = FilmeDao();
 
   void _carregarFilmes() {
-    filmeDao.findAll().then((filmes) {
+    ApiFilmes.findAll().then((filmes) {
       setState(() {
         var filmesList = filmes;
       });
@@ -49,7 +50,7 @@ class _ListarFilmesState extends State<ListarFilmes> {
       ]),
       body: FutureBuilder(
         future: Future.delayed(const Duration(seconds: 5), () {
-          return filmeDao.findAll();
+          return ApiFilmes.findAll();
         }),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -135,16 +136,14 @@ createAlertDialog(context, mensagem) {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-            content: Text(mensagem),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Ok"),
-              )
-            ]);
+        return AlertDialog(content: Text(mensagem), actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Ok"),
+          )
+        ]);
       });
 }
 
@@ -169,8 +168,6 @@ createBottomModal(context, Filme filme) {
         );
       });
 }
-
-
 
 String formatDuration(int seconds) {
   int hours = seconds ~/ 3600;
@@ -197,7 +194,6 @@ navegarParaDetalhes(context, Filme filme) {
 }
 
 void _alterarDadosFilme(Filme filme, context) {
-
   Navigator.of(context).pushNamed(
     AppRoutes.EDITAR_FILME,
     arguments: filme,

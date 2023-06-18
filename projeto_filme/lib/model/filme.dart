@@ -25,6 +25,19 @@ class Filme {
     };
   }
 
+  factory Filme.fromJson(Map<String, dynamic> map) {
+    return Filme(
+        map["urlImage"],
+        map["titulo"],
+        map["genero"],
+        map["faixaEtaria"],
+        map["duracao"],
+        map["nota"],
+        map["ano"],
+        map["descricao"],
+        id: map["id"]);
+  }
+
   @override
   String toString() {
     return 'Filme{id: $id, titulo: $titulo}';
