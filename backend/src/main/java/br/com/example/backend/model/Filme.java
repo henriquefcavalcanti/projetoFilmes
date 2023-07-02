@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +22,10 @@ public class Filme implements Serializable {
 	private String urlImage;
 	private String titulo;
 	private String genero;
-	private String faixaEtaria;
+
+	@ManyToOne
+	@JoinColumn(name = "faixa_etaria_id", nullable = false)
+	private FaixaEtaria faixaEtaria;
 	private int duracao;
 	private double nota;
 	private int ano;
@@ -30,8 +35,22 @@ public class Filme implements Serializable {
 		super();
 	}
 
-	public Filme(Long id, String urlImage, String titulo, String genero, String faixaEtaria, int duracao, double nota,
+	public Filme(Long id, String urlImage, String titulo, String genero, Long faixaEtariaId, int duracao, double nota,
 			int ano, String descricao) {
+		super();
+		this.id = id;
+		this.urlImage = urlImage;
+		this.titulo = titulo;
+		this.genero = genero;
+		this.faixaEtaria = new FaixaEtaria(faixaEtariaId);
+		this.duracao = duracao;
+		this.nota = nota;
+		this.ano = ano;
+		this.descricao = descricao;
+	}
+
+	public Filme(Long id, String urlImage, String titulo, String genero, FaixaEtaria faixaEtaria, int duracao,
+			double nota, int ano, String descricao) {
 		super();
 		this.id = id;
 		this.urlImage = urlImage;
@@ -76,11 +95,11 @@ public class Filme implements Serializable {
 		this.genero = genero;
 	}
 
-	public String getFaixaEtaria() {
+	public FaixaEtaria getFaixaEtaria() {
 		return faixaEtaria;
 	}
 
-	public void setFaixaEtaria(String faixaEtaria) {
+	public void setFaixaEtaria(FaixaEtaria faixaEtaria) {
 		this.faixaEtaria = faixaEtaria;
 	}
 
